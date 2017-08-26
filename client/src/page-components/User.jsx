@@ -42,9 +42,9 @@ class User extends React.Component {
     return axios.get('/api/posts/users/' + this.state.userEmail)
     .then((response) => {
 //      this.setState({posts: response.data});
-      var galleryposts = galleryConversion(dummyPosts);
+      var galleryposts = galleryConversion(response.data);
       this.setState({
-        posts: dummyPosts,
+        posts: resonse.data,
         galleryposts: galleryposts
       });
     });
