@@ -50,6 +50,7 @@ class NewEventForm extends Component {
 	    date: this.state.date,
 	    start: this.state.start,
 	    end: this.state.end,
+	    location: this.state.location,
 	    description: this.state.description,
 	    trailId: this.state.trailId,
 	    date_time: this.state.date_time 
