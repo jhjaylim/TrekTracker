@@ -44,7 +44,7 @@ class User extends React.Component {
 //      this.setState({posts: response.data});
       var galleryposts = galleryConversion(response.data);
       this.setState({
-        posts: resonse.data,
+        posts: response.data,
         galleryposts: galleryposts
       });
     });
