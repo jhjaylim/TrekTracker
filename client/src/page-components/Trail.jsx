@@ -15,11 +15,15 @@ class Trail extends React.Component {
       posts: [],
       galleryposts: [],
       currentUser: null,
-      trailInfo: {}
+      trailInfo: {},
+      forceRerenderForm: false
     };
     
     //retrieve trail's posts from server/database
     this.getTrailPosts = this.getTrailPosts.bind(this);
+  }
+
+  componentDidMount() {
     this.getTrailPosts();
 
     //retrieve current user from server
@@ -50,7 +54,8 @@ class Trail extends React.Component {
         var galleryposts = galleryConversion(response.data);
         this.setState({
           posts: response.data,
-          galleryposts: galleryposts
+          galleryposts: galleryposts,
+          forceRerenderForm: !this.state.forceRerenderForm
         });
         return true;
     });
@@ -66,7 +71,7 @@ class Trail extends React.Component {
       Object.keys(this.state.trailInfo).length === 0 ? (<div></div>) :
         (<div>
           <Weather latitude={this.state.trailInfo.latitude} longitude={this.state.trailInfo.longitude}/>
-          {this.state.currentUser ? <Upload getTrailPosts={this.getTrailPosts}/> : <div/>}
+          {this.state.currentUser ? <Upload key={this.state.forceRerenderForm} getTrailPosts={this.getTrailPosts}/> : <div/>}
           {this.state.galleryposts.length === 0 ? <div/> :
             <ImageGallery className='imagegallery'
               items={this.state.galleryposts}

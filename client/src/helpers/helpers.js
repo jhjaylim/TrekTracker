@@ -196,20 +196,6 @@ module.exports.submitImage = function(e) {
       });
   })
   .then(() => {
-    //clear the previous preview pictures
-    while(this.preview.firstChild) {
-      //if the preview element has a child populating it,
-      //remove it, then check again
-      this.preview.removeChild(this.preview.firstChild);
-    }
-    //restore the no files currently selected for upload message
-    let para = document.createElement('h2');
-    para.textContent = 'No files currently selected for upload';
-    this.preview.appendChild(para);
-    //reset upload photo to null
-    this.setState({photo: null});
-    //reset text to 'no files chosen' next to choose file button
-    this.form.reset();
     //get parent Trail component to reload trail posts from database again
     //get trail posts from the database
     return this.props.getTrailPosts();
