@@ -5,7 +5,6 @@ import UserEventList from '../components/UserEventList.jsx';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import ImageGallery from 'react-image-gallery';
 import { galleryConversion } from '../helpers/helpers.js';
-import dummyPosts from '../components/dummyPosts.jsx';
 
 class User extends React.Component {
   constructor(props) {
