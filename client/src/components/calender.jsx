@@ -27,7 +27,7 @@ class Calendar extends React.Component {
   }
 
   RSVP (event) {
-    console.log('sup')
+    console.log(event)
     axios.post('/event/interested', {
       event: event
     })
@@ -40,6 +40,7 @@ class Calendar extends React.Component {
   }
 
   ComponentDidMount () {
+    console.log('hello')
     this.getEvents(this.state.trails);
   }
 
@@ -81,7 +82,7 @@ class Calendar extends React.Component {
         {newEvent}
         <BigCalendar
           selectable
-          events= {this.state.events}
+          events= {events}
           defaultView='week'
           min={new Date('2017, 1, 7, 05:00')}
           max={new Date('2017, 1, 7, 22:00')}
