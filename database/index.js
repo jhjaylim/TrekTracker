@@ -1,6 +1,6 @@
 var models = require('./models');
 
-module.exports.getUserByEmail = (email) => {
+getUserByEmail = (email) => {
   return models.users.findOne({
     where: {email}
   })
@@ -15,7 +15,7 @@ module.exports.getUserByEmail = (email) => {
   });
 };
 
-module.exports.getTrailByID = (id) => {
+getTrailByID = (id) => {
   return models.trails.findOne({
     where: {id}
   })
@@ -30,7 +30,7 @@ module.exports.getTrailByID = (id) => {
   });
 };
 
-module.exports.getTrailsByName = (name) => {
+getTrailsByName = (name) => {
   if (!name || name.constructor !== String) {
     return new Promise((resolve, reject) => {
       reject('Expected a string but instead was passed in ' + name);
@@ -49,7 +49,7 @@ module.exports.getTrailsByName = (name) => {
   });
 };
 
-module.exports.getAllTrails = () => {
+getAllTrails = () => {
   return models.trails.findAll()
   .then((trails) => {
     for (let i = 0; i < trails.length; i++) {
@@ -60,8 +60,8 @@ module.exports.getAllTrails = () => {
   });
 };
 
-module.exports.registerInterest = (id, eventid) => {
-  return models.interestedInEvent.findOrCreate({where: {user_id: id, event_id: eventid}})
+registerInterest = (id, eventid) => {
+  models.interestedInEvent.findOrCreate({where: {user_id: id, event_id: eventid}})
   .spread((user, created) => {
     console.log('USER', user);
     console.log(user.get({plain: true}));
@@ -70,7 +70,7 @@ module.exports.registerInterest = (id, eventid) => {
 }
 
 
-module.exports.createTrail = (id, name, directions = '', latitude = 0, longitude = 0, description = '', traillength = 0) => {
+createTrail = (id, name, directions = '', latitude = 0, longitude = 0, description = '', traillength = 0) => {
   if (!name || name.constructor !== String) {
     return new Promise((resolve, reject) => {
       reject('Expected trail name to be a non-empty string, but instead got ' + name);
@@ -115,7 +115,7 @@ module.exports.createTrail = (id, name, directions = '', latitude = 0, longitude
 // posterData can be either a user ID or a user email (REMEMBER: user IDs are STRINGS, NOT numbers)
 // trailData can be either a trail ID or a trail name
 // posterDataType should either be 'id' or 'email'
-module.exports.createPost = (posterEmail, trailId, title, text, imageUrl, latitude=0, longitude=0) => {
+createPost = (posterEmail, trailId, title, text, imageUrl, latitude=0, longitude=0) => {
   if (!posterEmail || posterEmail.constructor !== String) {
     return new Promise((resolve, reject) => {
       reject('Expected poster email to be a string, but instead it was ' + posterEmail);
@@ -136,7 +136,6 @@ module.exports.createPost = (posterEmail, trailId, title, text, imageUrl, latitu
       reject('Expected image url to be a string, but instead it was ' + imageUrl);
     });
   }
-
   return module.exports.getUserByEmail(posterEmail)
   .then((poster) => {
     return models.posts.create({
@@ -154,49 +153,31 @@ module.exports.createPost = (posterEmail, trailId, title, text, imageUrl, latitu
   .catch(err => console.log(err));
 };
 
-// Catch could be used instead of if statements to make it shorter, but the statements are helpful for debugging.
-module.exports.createEvent = (creatorId, trailId, eventTitle, eventDesc, eventTrail, eventDate, eventStart, eventEnd) => {
-  console.log('CHECK HERE', creatorId, trailId, eventTitle, eventDesc, eventTrail, eventDate, eventStart, eventEnd);
-  // if (!creatorId) {
-  //   return new Promise((resolve, reject) => {
-  //     reject('Expected the event creator id to exist, but instead it was ' + creatorId);
-  //   });
-  // }
-  // if (!trailId) {
-  //   return new Promise((resolve, reject) => {
-  //     reject('Expected the trail id to exist, but instead it was ' + trailId);
-  //   });
-  // }
-  // if (!eventTitle || eventTitle.constructor !==  String) {
-  //   return new Promise((resolve, reject) => {
-  //     reject('Expected the title to be a string, but instead it was ' + eventTitle);
-  //   });
-  // }
-  // if (!eventDesc || eventDesc.constructor !==  String) {
-  //   return new Promise((resolve, reject) => {
-  //     reject('Expected the description to be a string, but instead it was ' + eventDesc);
-  //   });
-  // }
-  // if (!eventTrail || eventTrail.constructor !==  String) {
-  //   return new Promise((resolve, reject) => {
-  //     reject('Expected the trail name to be a string, but instead it was ' + eventTrail);
-  //   });
-  // }
-  // if (!eventDate || eventDate.constructor !==  String) {
-  //   return new Promise((resolve, reject) => {
-  //     reject('Expected the date to be a string, but instead it was ' + eventDate);
-  //   });
-  // }
-  // if (!eventStart || eventStart.constructor !==  String) {
-  //   return new Promise((resolve, reject) => {
-  //     reject('Expected the start time to be a string, but instead it was ' + eventStart);
-  //   });
-  // }
-  // if (!eventEnd || eventEnd.constructor !== String) {
-  //   return new Promise((resolve, reject) => {
-  //     reject('Expected the end time to be a string, but instead it was ' + eventEnd);
-  //   });
-  // }
+createEvent = (creatorId, trailId, eventTitle, eventDesc, eventTrail, eventDate, eventStart, eventEnd) => {
+  if (!creatorId) {
+    throw new Error ('Expected the event creator id to exist, but instead it was ' + creatorId);
+  }
+  if (!trailId) {
+    throw new Error ('Expected the trail id to exist, but instead it was ' + trailId);
+  }
+  if (!eventTitle || eventTitle.constructor !==  String) {
+    throw new Error('Expected the title to be a string, but instead it was ' + eventTitle);
+  }
+  if (!eventDesc || eventDesc.constructor !==  String) {
+    throw new Error('Expected the description to be a string, but instead it was ' + eventDesc);
+  }
+  if (!eventTrail || eventTrail.constructor !==  String) {
+    throw new Error('Expected the trail name to be a string, but instead it was ' + eventTrail);
+  }
+  if (!eventDate || eventDate.constructor !==  String) {
+    throw new Error ('Expected the date to be a string, but instead it was ' + eventDate);
+  }
+  if (!eventStart || eventStart.constructor !==  String) {
+    throw new Error ('Expected the start time to be a string, but instead it was ' + eventStart);
+  }
+  if (!eventEnd || eventEnd.constructor !== String) {
+    throw new Error ('Expected the end time to be a string, but instead it was ' + eventEnd);
+  }
   return models.events.create({
     title: eventTitle,
     desc: eventDesc,
@@ -212,9 +193,9 @@ module.exports.createEvent = (creatorId, trailId, eventTitle, eventDesc, eventTr
   .catch(err => console.log(err));
 };
 
-// get all events around the location
 
-module.exports.getAllEventsNearLocations = (trailIdList) => {
+// get all events around the location
+getAllEventsNearLocations = (trailIdList) => {
   var orQuery = trailIdList.map((id)=>{
     return {trail_id: id}
   });
@@ -224,18 +205,15 @@ module.exports.getAllEventsNearLocations = (trailIdList) => {
     }
   })
   .then((events)=>{
-
     return events.map((event)=>{
       return event.dataValues;
-
     });
-
   });
 };
 
 
-module.exports.getAllEventsByTrailId = (trailId) => {
-  return module.exports.getAllEventsNearLocations([trailId])
+getAllEventsByTrailId = (trailId) => {
+  return getAllEventsNearLocations([trailId])
   .then((events)=>{
     return events[0];
   });
@@ -243,7 +221,7 @@ module.exports.getAllEventsByTrailId = (trailId) => {
 
 // get all events by user
 
-module.exports.getAllEventsByUserEmail = (email) => {
+getAllEventsByUserEmail = (email) => {
   return models.users.findOne({where: {email} })
   .then((user)=>{
     return models.events.findAll({where: { creator_user_id: user.id}});
@@ -254,7 +232,7 @@ module.exports.getAllEventsByUserEmail = (email) => {
   });
 };
 
-module.exports.getEventById = (eventId) => {
+getEventById = (eventId) => {
   return models.events.findOne({where: {id:eventId}})
   .catch((err)=>{
     console.log("Error: ", err);
@@ -262,8 +240,8 @@ module.exports.getEventById = (eventId) => {
   });
 };
 
-module.exports.getPostsByUserEmail = (email) => {
-  return module.exports.getUserByEmail(email)
+getPostsByUserEmail = (email) => {
+  return getUserByEmail(email)
   .then((user) => {
     return models.posts.findAll({
       where: {
@@ -281,7 +259,7 @@ module.exports.getPostsByUserEmail = (email) => {
   });
 };
 
-module.exports.getPostsByTrailId = (id) => {
+getPostsByTrailId = (id) => {
   return models.posts.findAll({
     where: {trail_id: id}
   })
@@ -326,3 +304,24 @@ let replaceReferenceModelIdsWithModels = (modelArrayImmutable, idToReplace, mode
     return modelArray;
   });
 };
+
+//POST
+module.exports.createTrail = createTrail;
+module.exports.createEvent = createEvent;
+module.exports.createPost = createPost;
+module.exports.registerInterest = registerInterest;
+
+//GET
+module.exports.getUserByEmail = getUserByEmail;
+
+module.exports.getTrailsByName = getTrailsByName;
+module.exports.getTrailByID = getTrailByID;
+module.exports.getAllTrails = getAllTrails;
+
+module.exports.getEventById = getEventById;
+module.exports.getAllEventsNearLocations = getAllEventsNearLocations;
+module.exports.getAllEventsByTrailId = getAllEventsByTrailId;
+module.exports.getAllEventsByUserEmail = getAllEventsByUserEmail;
+
+module.exports.getPostsByUserEmail = getPostsByUserEmail;
+module.exports.getPostsByTrailId = getPostsByTrailId;
