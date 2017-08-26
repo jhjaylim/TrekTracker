@@ -61,11 +61,13 @@ getAllTrails = () => {
 };
 
 registerInterest = (userId, eventid) => {
+
+
   models.interestedInEvent.findOrCreate({where: {user_id: userId, event_id: eventid}})
   .spread((user, created) => {
     console.log('USER', user);
     console.log(user.get({plain: true}));
-    console.log(created);
+    console.log('--------------------interestedInEvent created: ', created);
   })
 }
 
@@ -188,6 +190,10 @@ createEvent = (creatorId, trailId, eventTitle, eventDesc, eventTrail, eventDate,
     creator_user_id: creatorId,
     trail_id: trailId
   }).then((event)=>{
+    event = event.dataValues;
+    console.log('--------------------------------DB EVENT CREATED!!!!', event);
+
+    registerInterest(event.creator_user_id, event.id);
     return event;
   })
   .catch(err => console.log(err));
@@ -221,6 +227,12 @@ getAllEventsByTrailId = (trailId) => {
 
 // get all events by user
 
+getAllEventsByUserId = (userId) => {
+
+  return models.events.findAll({where: { creator_user_id: userId}});
+  
+};
+
 getAllEventsByUserEmail = (email) => {
   return models.users.findOne({where: {email} })
   .then((user)=>{
@@ -234,6 +246,21 @@ getAllEventsByUserEmail = (email) => {
 
 getEventById = (eventId) => {
   return models.events.findOne({where: {id:eventId}})
+  .catch((err)=>{
+    console.log("Error: ", err);
+    throw err;
+  });
+};
+getAllEventsById = (eventIdList) => {
+
+  var orQuery = eventIdList.map((id)=>{
+    return {id:id};
+  });
+  return models.events.findAll({
+    where: {
+      $or: orQuery
+    }
+  })
   .catch((err)=>{
     console.log("Error: ", err);
     throw err;
@@ -271,6 +298,19 @@ getPostsByTrailId = (id) => {
     }
     return replaceReferenceModelIdsWithModels(posts, 'poster_user_id', models.users, 'poster');
   });
+};
+
+getInterestedEventsByUserId = (userId) => {
+  return models.interestedInEvent.findAll({
+    where: {user_id: userId}
+  })
+  .then((interested)=>{
+    interested = interested.map((event)=>{
+      return event.dataValues;
+    });
+    return interested;
+  });
+
 };
 
 // Used when getting an array of models that contain foreign keys
@@ -322,6 +362,8 @@ module.exports.getEventById = getEventById;
 module.exports.getAllEventsNearLocations = getAllEventsNearLocations;
 module.exports.getAllEventsByTrailId = getAllEventsByTrailId;
 module.exports.getAllEventsByUserEmail = getAllEventsByUserEmail;
-
+module.exports.getAllEventsByUserId = getAllEventsByUserId;
+module.exports.getInterestedEventsByUserId = getInterestedEventsByUserId;
+module.exports.getAllEventsById = getAllEventsById;
 module.exports.getPostsByUserEmail = getPostsByUserEmail;
 module.exports.getPostsByTrailId = getPostsByTrailId;

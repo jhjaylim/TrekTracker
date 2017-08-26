@@ -3,7 +3,7 @@ var db = require('../database');
 
 router.post('/', (req, res) => {
   var event = req.body.event;
-  console.log('EVENT', event)
+  console.log('----------------------EVENT', req.user)
   db.createEvent(req.user.id, event.trailId, event.title, event.description, event.location, event.date, event.start, event.end)
   .then((post) => {
     res.end(JSON.stringify(post));
@@ -38,16 +38,21 @@ router.get('/allevents', (req, res)=>{
 });
 
 router.get('/user', (req, res)=>{
-  console.log('EventList Request received--------------------------------------------------------');
-  console.log(req.user.email);
-
-  db.getAllEventsByUserEmail(req.user.email)
+  
+  db.getInterestedEventsByUserId(req.user.id)
   .then((eventList)=>{
-    console.log("EVENT DATA: ", eventList[0].dataValues);
-    eventList = eventList.map((event)=>{
-      return event.dataValues;
+    console.log("EVENT DATA: ", eventList);
+    var eventIdList = eventList.map((event)=>{return event.id});
+    db.getAllEventsById(eventIdList)
+    .then((eventList)=>{
+      eventList = eventList.map((event)=>{return event.dataValues});
+      res.send(eventList);
+    })
+    .catch((err)=>{
+      res.send(err);
     });
-    res.send(eventList);
+
+    
   })
   .catch((err)=>{
     console.log("EVENT ERR: ", err);
