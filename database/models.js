@@ -157,8 +157,6 @@ var Events = sequelize.define('events', {
   },
   date: {
     type: Sequelize.STRING,
-    notEmpty: true,
-    allowNull: false
   },
   start: {
     type: Sequelize.STRING,
