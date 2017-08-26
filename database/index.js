@@ -60,8 +60,8 @@ getAllTrails = () => {
   });
 };
 
-registerInterest = (id, eventid) => {
-  models.interestedInEvent.findOrCreate({where: {user_id: id, event_id: eventid}})
+module.exports.registerInterest = (userId, eventid) => {
+  models.interestedInEvent.findOrCreate({where: {user_id: userId, event_id: eventid}})
   .spread((user, created) => {
     console.log('USER', user);
     console.log(user.get({plain: true}));

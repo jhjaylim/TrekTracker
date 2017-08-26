@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Posts from '../components/Posts.jsx';
+import UserEventList from '../components/UserEventList.jsx';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import ImageGallery from 'react-image-gallery';
 import { galleryConversion } from '../helpers/helpers.js';
@@ -11,7 +12,8 @@ class User extends React.Component {
 
     this.state = {
       userEmail: null,
-      posts: []
+      posts: [],
+      events: [1]
     };
 
     if (props.currentUser) {
@@ -25,6 +27,7 @@ class User extends React.Component {
       this.state.userEmail = email;
       this.getPosts();
     }
+    this.getEventsByUser = this.getEventsByUser.bind(this);
 
   }
 
@@ -38,6 +41,7 @@ class User extends React.Component {
   getPosts () {
     return axios.get('/api/posts/users/' + this.state.userEmail)
     .then((response) => {
+//      this.setState({posts: response.data});
       var galleryposts = galleryConversion(response.data);
       this.setState({
         posts: response.data,
@@ -46,20 +50,58 @@ class User extends React.Component {
     });
   }
 
+  getEventsByUser () {
+    console.log('clicked Get events');
+
+    this.getCurrentUser()
+    .then((response) => {
+      return axios.get('/event/user', {params: {email: this.state.userEmail}})
+      .then((data)=>{
+        this.setState({events: data.data});
+        console.log('state----',this.state.events);
+      });
+
+    });
+
+
+  }
+
   handleImageLoad(event) {
     console.log('Image loaded ', event.target)
   }
 
 //        <Posts posts={this.state.posts} />
+
+  componentDidMount() {
+    this.getEventsByUser();
+  }
+
+
+/*
+  createdAt:"2017-08-26T17:27:12.000Z"
+  creator_user_id:"115245116847689960870"
+  date:"2017-08-26T17:27:06.137Z"
+  desc:"gfdsgsdfgfdsg"
+  end:"2017-08-26T17:27:09.999Z"
+  id:1
+  start:"2017-08-26T17:27:08.318Z"
+  title:"asdads"
+  trail_id:339
+  trailname:null
+  updatedAt:"2017-08-26T17:27:12.000Z"
+
+*/
   render() {
     return (
       <div>
+        <UserEventList events={this.state.events} />
         <ImageGallery className='imagegallery'
           items={this.state.galleryposts}
           slideInterval={2000}
           onImageLoad={this.handleImageLoad}
           thumbnailPosition={'top'}
         />
+
       </div>
     );
   }
