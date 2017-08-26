@@ -39,11 +39,9 @@ class NewEventForm extends Component {
   this.handleDate = this.handleDate.bind(this);
   this.handleTime = this.handleTime.bind(this);
   this.handleEnd = this.handleEnd.bind(this);
-  this.handleSubmit = this.handleSubmit.bind(this);
  };
 
   saveEvent () {
-  	this.handleSubmit();
   	axios.post('/event', {
       event: { 
       	title: this.state.title,
@@ -102,13 +100,6 @@ class NewEventForm extends Component {
 
   handleEnd(event, time){
     this.setState({end: time})
-  }
-  
-  handleDate(event, date){
-    this.setState({date: date})
-  }
-
-  handleSubmit(event){
     let momentTime = moment(this.state.time);
     console.log(momentTime.hours());
     let momentDate = moment(this.state.date);
@@ -119,9 +110,11 @@ class NewEventForm extends Component {
       hour: momentTime.hours(),
       minute: momentTime.minutes()
     });
-    console.log('rendered', renderedDateTime);
-    this.setState({date_time: renderedDateTime});
-
+    this.setState({date_time: renderedDateTime,});
+  }
+  
+  handleDate(event, date){
+    this.setState({date: date})
   }
 
   render() {
@@ -148,7 +141,6 @@ class NewEventForm extends Component {
 	          actions={actions}
 	          modal={false}
 	          open={this.state.open}
-	          onRequestClose={this.handleSubmit}
             >
            Plan your hike here.<br/>
           <TextField onChange={this.handleTitle} hintText="Name your event"/><br />
