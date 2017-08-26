@@ -38,10 +38,21 @@ router.get('/allevents', (req, res)=>{
 });
 
 router.get('/user', (req, res)=>{
-  console.log('EventList Request received');
+  console.log('EventList Request received--------------------------------------------------------');
   console.log(req.user.email);
 
-  //db.getAllEventsByUserEmail(req.user.email);
+  db.getAllEventsByUserEmail(req.user.email)
+  .then((eventList)=>{
+    console.log("EVENT DATA: ", eventList[0].dataValues);
+    eventList = eventList.map((event)=>{
+      return event.dataValues;
+    });
+    res.send(eventList);
+  })
+  .catch((err)=>{
+    console.log("EVENT ERR: ", err);
+    res.send(err);
+  });
 });
 
 router.get('/', (req, res)=>{
