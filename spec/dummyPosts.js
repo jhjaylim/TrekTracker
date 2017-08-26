@@ -1,4 +1,4 @@
-var dummyPosts = 
+module.exports.dummyPosts = 
 [
     {
         image_url: `http://i.imgur.com/58tlkd1.jpg`,
@@ -24,4 +24,3 @@ var dummyPosts =
     }
 
 ];
-export default dummyPosts;

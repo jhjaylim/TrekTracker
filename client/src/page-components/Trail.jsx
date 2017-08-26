@@ -6,7 +6,6 @@ import Weather from '../components/Weather.jsx';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import ImageGallery from 'react-image-gallery';
 import { galleryConversion } from '../helpers/helpers.js';
-import dummyPosts from '../components/dummyPosts.jsx';
 
 class Trail extends React.Component {
   constructor(props) {
@@ -22,10 +21,9 @@ class Trail extends React.Component {
     //retrieve trail's posts from server/database
     axios.get('/api/posts/trails/' + this.state.trailId, {params:{trailId:this.state.trailId}})
     .then((response) => {
-//      this.setState({posts: response.data});
-        var galleryposts = galleryConversion(dummyPosts);
+        var galleryposts = galleryConversion(response.data);
         this.setState({
-          posts: dummyPosts,
+          posts: response.data,
           galleryposts: galleryposts
         });
     });
@@ -38,27 +36,12 @@ class Trail extends React.Component {
       }
     });
 
-    //dummy data until can retrieve trail info from server/database
-    var trails = [
-      {
-        "id": 1,
-        "name": "testtrail",
-        "latitude": 37.7749,
-        "longitude": -122.4194
-      },
-      {
-        "id": 2,
-        "name": "testtrail2",
-        "latitude": 37.7749,
-        "longitude": -122.4194
-      }
-    ];
     //retrieve current trail info from server/database
-    //axios.get('/trails/' + this.state.trailId)
-    Promise.resolve(trails[0])
+    axios.get('/api/trails/' + this.state.trailId)
       .then((response) => {
         if (response) {
-          this.setState({trailInfo: response});
+          this.setState({trailInfo: response.data});
+          console.log(this.state.trailInfo);
         }
       })
       .catch((err) => {

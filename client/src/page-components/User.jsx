@@ -4,7 +4,6 @@ import Posts from '../components/Posts.jsx';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import ImageGallery from 'react-image-gallery';
 import { galleryConversion } from '../helpers/helpers.js';
-import dummyPosts from '../components/dummyPosts.jsx';
 
 class User extends React.Component {
   constructor(props) {
@@ -39,10 +38,9 @@ class User extends React.Component {
   getPosts () {
     return axios.get('/api/posts/users/' + this.state.userEmail)
     .then((response) => {
-//      this.setState({posts: response.data});
-      var galleryposts = galleryConversion(dummyPosts);
+      var galleryposts = galleryConversion(response.data);
       this.setState({
-        posts: dummyPosts,
+        posts: response.data,
         galleryposts: galleryposts
       });
     });
