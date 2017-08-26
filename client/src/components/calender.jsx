@@ -5,13 +5,15 @@ import EventForm from './eventForm.jsx'
 import NewEventForm from './eventFormNoButton.jsx'
 import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
+import {isLoggedIn} from '../helpers/helpers.js';
+
 
 var moment = require('moment');
 
 BigCalendar.momentLocalizer(moment);
 moment().format();
 
-moment("2010-10-20 4:30", "YYYY-MM-DD HH:mm"); 
+moment("2010-10-20 4:30", "YYYY-MM-DD HH:mm");
 
 class Calendar extends React.Component {
   constructor(props) {
@@ -19,11 +21,29 @@ class Calendar extends React.Component {
   	this.state = {
   	  formStatus: false,
       trails: this.props.trails,
-      events: []
+      events: [],
+      isLoggedIn: false
   	}
+    this.isLoggedIn = isLoggedIn.bind(this);
   	this.handleOpen = this.handleOpen.bind(this);
     this.RSVP = this.RSVP.bind(this);
     this.getEvents = this.getEvents.bind(this);
+
+    //Feel free to refactor if you can think of a better way to check when the page reloads
+    if (this.state.trails) {
+      this.isLoggedIn()
+        .then((res) => {
+          this.setState({
+            isLoggedIn: res,
+          });
+        })
+        .catch((err) => {
+          console.log('error determining login status, ', err);
+          this.setState({
+            isLoggedIn: null,
+          });
+      });
+    }
   }
 
   RSVP (event) {
@@ -32,7 +52,7 @@ class Calendar extends React.Component {
       event: event
     })
     .then(function(response){
-      console.log('RSVPd') 
+      console.log('RSVPd')
     })
     .catch(function(error){
       console.log('we dont want you to come')
@@ -78,7 +98,7 @@ class Calendar extends React.Component {
           Click an event to see more info, or
           drag the mouse over the calendar to select a date/time range.
         </h3>
-        <RaisedButton label="Plan a hike!" onClick={this.handleOpen} />
+        {this.state.isLoggedIn ? <RaisedButton label="Plan a hike!" onClick={this.handleOpen} /> : <span></span>}
         {newEvent}
         <BigCalendar
           selectable
