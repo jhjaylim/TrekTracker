@@ -23,9 +23,11 @@ class Calendar extends React.Component {
   	}
   	this.handleOpen = this.handleOpen.bind(this);
     this.RSVP = this.RSVP.bind(this);
+    this.getEvents = this.getEvents.bind(this);
   }
 
-  RSVP(event){
+  RSVP (event) {
+    console.log('sup')
     axios.post('/event/interested', {
       event: event
     })
@@ -37,8 +39,8 @@ class Calendar extends React.Component {
     })
   }
 
-  ComponentDidMount(){
-    this.setState({trails: this.props.trails})
+  ComponentDidMount () {
+    this.getEvents(this.state.trails);
   }
 
   handleOpen () {
@@ -50,6 +52,7 @@ class Calendar extends React.Component {
   }
 
   getEvents (trails) {
+    console.log('sup')
     axios.get('/event', {
       params: {
         trails: trails
@@ -57,10 +60,14 @@ class Calendar extends React.Component {
     })
     .then(function(response){
       this.setState({events: response.events})
+      console.log('got events');
+    })
+    .catch(function(error){
+      console.log('events', error)
     })
   }
 
-  render(){
+  render () {
     var startTime = new Date()
     startTime = startTime.setHours(4);
     var newEvent = this.state.formStatus === false ? null : <NewEventForm events={this.state.events} trails={this.props.trails}/>
@@ -74,7 +81,7 @@ class Calendar extends React.Component {
         {newEvent}
         <BigCalendar
           selectable
-          events= {events}
+          events= {this.state.events}
           defaultView='week'
           min={new Date('2017, 1, 7, 05:00')}
           max={new Date('2017, 1, 7, 22:00')}
