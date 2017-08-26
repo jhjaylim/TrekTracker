@@ -33,6 +33,16 @@ router.get('/posts/trails/:trailId', (req, res) => {
   });
 });
 
+router.get('/trails/:trailId', (req, res) => {
+  let trailId = req.params.trailId;
+  db.getTrailByID(trailId)
+    .then((trail) => {
+      res.end(JSON.stringify(trail));
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    })
+})
 router.get('/trails', (req, res) => {
   let lat = `${req.query.lat || 34}`;
   let long = `${req.query.lng || -104}`;

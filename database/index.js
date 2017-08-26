@@ -15,6 +15,21 @@ module.exports.getUserByEmail = (email) => {
   });
 };
 
+module.exports.getTrailByID = (id) => {
+  return models.trails.findOne({
+    where: {id}
+  })
+  .then((trail) => {
+    if (trail) {
+      return trail;
+    } else {
+      return new Promise((resolve, reject) => {
+        reject('There is no trail under the id ' + id);
+      });
+    }
+  });
+};
+
 module.exports.getTrailsByName = (name) => {
   if (!name || name.constructor !== String) {
     return new Promise((resolve, reject) => {
@@ -44,6 +59,7 @@ module.exports.getAllTrails = () => {
     return trails;
   });
 };
+
 
 module.exports.registerInterest = (userId, eventid) => {
   models.interestedInEvent.findOrCreate({where: {user_id: userId, event_id: eventid}})
