@@ -15,18 +15,16 @@ class Trail extends React.Component {
       posts: [],
       galleryposts: [],
       currentUser: null,
-      trailInfo: {}
+      trailInfo: {},
+      forceRerenderForm: false
     };
     
     //retrieve trail's posts from server/database
-    axios.get('/api/posts/trails/' + this.state.trailId, {params:{trailId:this.state.trailId}})
-    .then((response) => {
-        var galleryposts = galleryConversion(response.data);
-        this.setState({
-          posts: response.data,
-          galleryposts: galleryposts
-        });
-    });
+    this.getTrailPosts = this.getTrailPosts.bind(this);
+  }
+
+  componentDidMount() {
+    this.getTrailPosts();
 
     //retrieve current user from server
     axios.get('/api/currentuser')
@@ -49,6 +47,20 @@ class Trail extends React.Component {
       });
   }
 
+  getTrailPosts() {
+    //retrieve trail's posts from server/database
+    return axios.get('/api/posts/trails/' + this.state.trailId, {params:{trailId:this.state.trailId}})
+    .then((response) => {
+        var galleryposts = galleryConversion(response.data);
+        this.setState({
+          posts: response.data,
+          galleryposts: galleryposts,
+          forceRerenderForm: !this.state.forceRerenderForm
+        });
+        return true;
+    });
+  }
+
   handleImageLoad(event) {
     console.log('Image loaded ', event.target)
   }
@@ -59,13 +71,15 @@ class Trail extends React.Component {
       Object.keys(this.state.trailInfo).length === 0 ? (<div></div>) :
         (<div>
           <Weather latitude={this.state.trailInfo.latitude} longitude={this.state.trailInfo.longitude}/>
-          {this.state.currentUser ? <Upload/> : <div/>}
-          <ImageGallery className='imagegallery'
-            items={this.state.galleryposts}
-            slideInterval={2000}
-            onImageLoad={this.handleImageLoad}
-            thumbnailPosition={'top'}
-          />
+          {this.state.currentUser ? <Upload key={this.state.forceRerenderForm} getTrailPosts={this.getTrailPosts}/> : <div/>}
+          {this.state.galleryposts.length === 0 ? <div/> :
+            <ImageGallery className='imagegallery'
+              items={this.state.galleryposts}
+              slideInterval={2000}
+              onImageLoad={this.handleImageLoad}
+              thumbnailPosition={'top'}
+            />
+          }
         </div>)
     );
   }

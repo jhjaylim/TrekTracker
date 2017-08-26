@@ -27,12 +27,13 @@ class Upload extends React.Component {
   componentDidMount() {
     this.input = document.querySelector('.input');
     this.preview = document.querySelector('.preview');
+    this.form = document.querySelector('.postform');
   }
 
   render() {
     return(
       <Paper>
-        <form onSubmit={ this.submitImage }>
+        <form className = 'postform' onSubmit={ this.submitImage }>
           <h2>Upload trek pic!</h2>
           <input className='input' onChange={(e) => this.updateImage(e)} type='file' accept='image/*' capture='camera' />
           <button style={{position:'relative',left:'10px',backgroundColor:'papayawhip'}}>Submit</button>

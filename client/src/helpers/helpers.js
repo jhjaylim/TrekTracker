@@ -186,8 +186,19 @@ module.exports.submitImage = function(e) {
       trail_id: this.state.trailId,
     };
     return axios.post('/api/posts', {photo: metaPhoto})
-      .then(res => console.log('success: ', res))
-      .catch(err => console.log('error in the /api/posts endpoint: ', err));
+      .then(res => {
+        console.log('success: ', res);
+        return res;
+      })
+      .catch(err => {
+        console.log('error in the /api/posts endpoint: ', err);
+        throw err;
+      });
+  })
+  .then(() => {
+    //get parent Trail component to reload trail posts from database again
+    //get trail posts from the database
+    return this.props.getTrailPosts();
   })
   .catch((err, res) => {
     if(err) {
