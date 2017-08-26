@@ -32,14 +32,16 @@ module.exports = router;
 // all events
 
 router.get('/allevents', (req, res)=>{
-
+  console.log(req.body);
 	//db.getAllEventsNearLocation takes array of trailIds as parameter
 
 });
 
-router.get('/user/allevents', (req, res)=>{
+router.get('/user', (req, res)=>{
+  console.log('EventList Request received');
+  console.log(req.user.email);
 
-  //db.getAllEventsByUserId user's email and finds all events that belongs to a user.
+  //db.getAllEventsByUserEmail(req.user.email);
 });
 
 router.get('/', (req, res)=>{

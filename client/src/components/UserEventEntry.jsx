@@ -1,0 +1,1 @@
+import React from 'react';var UserEventEntry = (props) => {  	    return (    <div onClick={()=>{props.handler()}}>    	Helooooooooooo    </div>      );  };export default UserEventEntry;

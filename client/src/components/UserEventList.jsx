@@ -1,0 +1,1 @@
+import React from 'react';import UserEventEntry from './UserEventEntry.jsx';var UserEventList = (props) => {  return (    <div>    	Helooooooooooooooooooo    	<UserEventEntry handler={props.clickHandler}/>    </div>  );  };export default UserEventList;
