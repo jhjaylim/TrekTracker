@@ -23,9 +23,9 @@ class Trail extends React.Component {
     axios.get('/api/posts/trails/' + this.state.trailId, {params:{trailId:this.state.trailId}})
     .then((response) => {
 //      this.setState({posts: response.data});
-        var galleryposts = galleryConversion(dummyPosts);
+        var galleryposts = galleryConversion(response.data);
         this.setState({
-          posts: dummyPosts,
+          posts: response.data,
           galleryposts: galleryposts
         });
     });
