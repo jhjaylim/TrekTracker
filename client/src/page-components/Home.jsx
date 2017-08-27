@@ -112,7 +112,7 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='content-wrap'>
         <div className = 'Gmap col-wide'>
           <Map
             containerElement={ < div style = {{width:100+'%', height:100+'%'}}/> }
@@ -134,7 +134,8 @@ class Home extends React.Component {
         <div className='col-narrow'>
           {this.state.markers.length > 0 ? <TrailList onClick={this.trailClick} markers={this.state.markers} /> : <CircularProgress size={200} thickness={10} style={{'width': '50%', 'position': 'relative', 'left': '25%'}} />}
         </div>
-        <div className='calendar'>
+
+        <div className='calendar' style={{clear: 'both'}}>
           <Calendar trails={this.state.markers}></Calendar>
         </div>
       </div>
