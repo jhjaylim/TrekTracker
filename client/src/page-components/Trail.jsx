@@ -7,6 +7,7 @@ import 'react-image-gallery/styles/css/image-gallery.css';
 import ImageGallery from 'react-image-gallery';
 import { galleryConversion } from '../helpers/helpers.js';
 
+
 class Trail extends React.Component {
   constructor(props) {
     super(props);
@@ -18,7 +19,7 @@ class Trail extends React.Component {
       trailInfo: {},
       forceRerenderForm: false
     };
-    
+
     //retrieve trail's posts from server/database
     this.getTrailPosts = this.getTrailPosts.bind(this);
   }
@@ -39,7 +40,7 @@ class Trail extends React.Component {
       .then((response) => {
         if (response) {
           this.setState({trailInfo: response.data});
-          console.log(this.state.trailInfo);
+          console.log('TRAIL Info', this.state.trailInfo);
         }
       })
       .catch((err) => {
@@ -67,19 +68,34 @@ class Trail extends React.Component {
 
 //          <Posts posts={this.state.posts} />
   render() {
+    var imgUrl = this.state.galleryposts[0] || 'http://i.imgur.com/f8W2uvj.png';
     return (
       Object.keys(this.state.trailInfo).length === 0 ? (<div></div>) :
         (<div>
-          <Weather latitude={this.state.trailInfo.latitude} longitude={this.state.trailInfo.longitude}/>
-          {this.state.currentUser ? <Upload key={this.state.forceRerenderForm} getTrailPosts={this.getTrailPosts}/> : <div/>}
-          {this.state.galleryposts.length === 0 ? <div/> :
-            <ImageGallery className='imagegallery'
-              items={this.state.galleryposts}
-              slideInterval={2000}
-              onImageLoad={this.handleImageLoad}
-              thumbnailPosition={'top'}
-            />
-          }
+          <div style={{backgroundImage: 'url(' + imgUrl + ')',  height: '400px', display: 'block'}}>
+            <Weather latitude={this.state.trailInfo.latitude} longitude={this.state.trailInfo.longitude} />
+            {this.state.trailInfo ? <h1 className={'trailTitle'}>{this.state.trailInfo.name}</h1> : <span></span>}
+          </div>
+          <div className={'content-wrap'} style={{marginTop: '100px'}}>
+            <div style={{width: '50%'}}>
+              <div><p><span className={'bold'}>Trail Length</span>: {this.state.trailInfo ? this.state.trailInfo.traillength : <span></span>}</p></div>
+              <div><p>{this.state.trailInfo ? this.state.trailInfo.description : <span></span>}</p></div>
+              <div><p><span className={'bold'}>Directions</span>: {this.state.trailInfo ? this.state.trailInfo.directions : <span></span>}</p></div>
+            </div>
+            <div style={{width: '50%'}}>
+              {this.state.galleryposts.length === 0 ? <div/> :
+                <ImageGallery className='imagegallery'
+                  items={this.state.galleryposts}
+                  slideInterval={2000}
+                  onImageLoad={this.handleImageLoad}
+                  thumbnailPosition={'top'}
+                />
+              }
+              {this.state.currentUser ? <Upload key={this.state.forceRerenderForm} getTrailPosts={this.getTrailPosts}/> : <div/>}
+            </div>
+
+          </div>
+
         </div>)
     );
   }
