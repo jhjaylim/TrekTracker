@@ -13,7 +13,7 @@ class User extends React.Component {
     this.state = {
       userEmail: null,
       posts: [],
-      events: [1]
+      events: []
     };
 
     if (props.currentUser) {
