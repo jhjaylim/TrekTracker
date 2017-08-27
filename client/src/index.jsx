@@ -17,10 +17,10 @@ class App extends React.Component {
     return (
       <div>
         <Nav />
-        <div className='content-wrap'>
+        <div> {/* REMOVED className='content-wrap'*/}
           <Switch>
             <Route exact path='/'>
-              <Home />
+              <Home/>
             </Route>
             <Route exact path='/login'>
               <Login/>
