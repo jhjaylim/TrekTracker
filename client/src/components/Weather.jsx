@@ -72,7 +72,7 @@ class Weather extends React.Component {
               className='titleStyleWeather'
               titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
             >
-              <img src={tile.img} />
+              <img style={{paddingRight: '30px'}} src={tile.img} />
               <div>{' '}</div>
             </GridTile>
           ))}
@@ -89,7 +89,7 @@ class Weather extends React.Component {
               <div>
                 <img src={this.state.leanWeatherForecast[this.state.dayIndexDetail].dayImage}/>
                 <div>
-                  {`${this.state.leanWeatherForecast[this.state.dayIndexDetail].dayName}: 
+                  {`${this.state.leanWeatherForecast[this.state.dayIndexDetail].dayName}:
                    ${this.state.leanWeatherForecast[this.state.dayIndexDetail].daySummary}`}
                 </div>
                 <div>
@@ -99,7 +99,7 @@ class Weather extends React.Component {
               <div>
                 <img src={this.state.leanWeatherForecast[this.state.dayIndexDetail].nightImage}/>
                 <div>
-                  {`${this.state.leanWeatherForecast[this.state.dayIndexDetail].nightName}: 
+                  {`${this.state.leanWeatherForecast[this.state.dayIndexDetail].nightName}:
                    ${this.state.leanWeatherForecast[this.state.dayIndexDetail].nightSummary}`}
                 </div>
                 <div>
@@ -110,8 +110,8 @@ class Weather extends React.Component {
           </Menu>
         </Popover>
         <div>
-          <img className='wundergroundimg' src={'https://icons.wxug.com/logos/JPG/wundergroundLogo_4c_horz.jpg'} width="10%" height="10%"/>
-          <a className = 'wundergroundimg' href='https://sunrise-sunset.org/api'>Sunrise Sunset API</a>
+          <img style={{paddingLeft: '1em', paddingRight: '1em', paddingTop: '.5em'}} src={'https://icons.wxug.com/logos/JPG/wundergroundLogo_4c_horz.jpg'} width="10%" height="10%"/>
+          <span><a  href='https://sunrise-sunset.org/api'>Sunrise Sunset API</a></span>
         </div>
       </div>);
     return (
