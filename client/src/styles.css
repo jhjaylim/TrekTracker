@@ -20,12 +20,17 @@ body {
 .TrailListEntry {
   background-color: #4CAF50;
 }
-.content-wrap{
+.content-wrap {
   max-width: 1000px;
   margin: 0 auto;
   padding: 10px;
   overflow: hidden;
 }
+
+/*.content-wrap{
+  overflow: hidden;
+}*/
+
 .col-wide{
   width: 65%;
   float: left;
@@ -46,34 +51,62 @@ body {
   margin: 10px 0;
 }
 
+.trailTitle {
+  text-align: center;
+  color: white;
+  padding-top: 0px;
+  margin: 0;
+  font-size: 3.5em;
+  text-shadow: 5px 5px 3px #333333;
+}
+
 .rootWeather {
   display: 'flex';
-  flexWrap: 'nowrap';
-  justifyContent: 'space-around';
+  flex-wrap: 'nowrap';
+  justify-content: 'space-around';
   overflow: auto;
+  position: relative;
+  top: 300px;
 }
 
 .gridListWeather {
   display: 'flex';
-  flexWrap: 'nowrap';
-  overflowX: 'auto';
+  flex-wrap: 'nowrap';
+  overflow-X: 'auto';
   overflow: auto;
 }
 
 .titleStyleWeather {
   color: 'rgb(0, 188, 212)';
+  text-align: center;
 }
 
 .weatherDetailPopup = {
   height: 4000;
   width: 100;
   margin: 20;
-  textAlign: 'center';
+  text-align: 'center';
   display: 'inline-block';
 };
 
 .wundergroundimg = {
-  margin: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: .5em;
+}
+
+a {
+  color: #4CAF50;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #333333;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .imagegallery = {
