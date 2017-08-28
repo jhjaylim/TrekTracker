@@ -25,7 +25,6 @@ class NewEventForm extends Component {
  	  description : '',
  	  location : '',
       trailId : 0,
-      date_time: null,
       value: 0
  	}
 
@@ -51,7 +50,6 @@ class NewEventForm extends Component {
 	    location: this.state.location,
 	    description: this.state.description,
 	    trailId: this.state.trailId,
-	    date_time: this.state.date_time 
 	  }
   	})
   	.then(function(response){
@@ -91,26 +89,34 @@ class NewEventForm extends Component {
       trailId: value.trailId,
       value: index
     })
-    console.log(this.state)
   }
 
   handleTime(event, time){
-    this.setState({start: time})
-  }
-
-  handleEnd(event, time){
-    this.setState({end: time})
-    let momentTime = moment(this.state.time);
-    console.log(momentTime.hours());
+    let momentTime = moment(time);
     let momentDate = moment(this.state.date);
-    let renderedDateTime = moment({
+    const renderedDateTime = moment({
       year: momentDate.year(),
       month: momentDate.month(),
       day: momentDate.date(),
       hour: momentTime.hours(),
       minute: momentTime.minutes()
     });
-    this.setState({date_time: renderedDateTime,});
+    var date = new Date(renderedDateTime._i.year, renderedDateTime._i.month, renderedDateTime._i.day, renderedDateTime._i.hour, renderedDateTime._i.minute)
+    this.setState({start: date})
+  }
+
+  handleEnd(event, time){
+    let momentTime = moment(time);
+    let momentDate = moment(this.state.date);
+    const renderedDateTime = moment({
+      year: momentDate.year(),
+      month: momentDate.month(),
+      day: momentDate.date(),
+      hour: momentTime.hours(),
+      minute: momentTime.minutes()
+    });
+    var date = new Date(renderedDateTime._i.year, renderedDateTime._i.month, renderedDateTime._i.day, renderedDateTime._i.hour, renderedDateTime._i.minute)
+    this.setState({end: date});
   }
   
   handleDate(event, date){
