@@ -74,7 +74,6 @@ class Calendar extends React.Component {
         return event;
       }
     })
-    console.log(eventList)
     var startTime = new Date()
     startTime = startTime.setHours(4);
     var newEvent = this.state.formStatus === false ? null : <NewEventForm events={this.props.events} trails={this.props.trails}/>

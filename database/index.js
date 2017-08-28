@@ -359,7 +359,7 @@ module.exports.getTrailByID = getTrailByID;
 module.exports.getAllTrails = getAllTrails;
 
 module.exports.getEventById = getEventById;
-module.exports.getAllEventsNearLocations = getAllEventsNearLocations;
+// module.exports.getAllEventsNearLocations = getAllEventsNearLocations;
 module.exports.getAllEventsByTrailId = getAllEventsByTrailId;
 module.exports.getAllEventsByUserEmail = getAllEventsByUserEmail;
 module.exports.getAllEventsByUserId = getAllEventsByUserId;
