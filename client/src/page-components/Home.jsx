@@ -20,7 +20,6 @@ class Home extends React.Component {
         lng: -115.4089664
       },
       markers: [],
-      trails: [],
       events: [],
       trailPopup: false
     }
