@@ -30,11 +30,19 @@ module.exports = router;
 
 
 // all events
-
+/*
+ query: { trails: [ '1', '2', '3' ] },
+*/
 router.get('/allevents', (req, res)=>{
-  console.log(req.body);
-	//db.getAllEventsNearLocation takes array of trailIds as parameter
-
+  var trailIds = req.query.trails;
+	//db.getAllEventsNearLocations takes array of trailIds as parameter
+  db.getAllEventsNearLocations(trailIds)
+  .then((response)=>{
+    res.send(response);
+  })
+  .catch((error) => {
+    res.status(500).json(error);
+  })
 });
 
 router.get('/user', (req, res)=>{

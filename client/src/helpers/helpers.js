@@ -207,6 +207,29 @@ module.exports.submitImage = function(e) {
   });
 }
 
+  module.exports.getEvents = function (trails) {
+    var ids = [];
+    this.state.markers.map(function(trail) {ids.push(trail.trailId)})
+    return axios.get('/event/allevents', {
+      params: {
+        trails: ids
+      }
+    })
+    .then((response)=>{
+      var events = response.data;
+      events.forEach(function(event){
+        event.start = new Date(event.start);
+        event.end = new Date(event.end)
+      })
+      this.setState({events: response.data})
+      console.log('got events', response.data);
+    })
+    .catch(function(error){
+      console.log('events', error)
+    })
+  }
+
+
 /*
 When a marker is clicked we want to open the infowindow.
 I couldn't really find an efficient way to do this, so I just

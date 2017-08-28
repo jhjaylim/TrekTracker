@@ -188,7 +188,7 @@ createEvent = (creatorId, trailId, eventTitle, eventDesc, eventTrail, eventDate,
     start: eventStart,
     end: eventEnd,
     creator_user_id: creatorId,
-    trail_id: trailId
+    trail_id: trailId,
   }).then((event)=>{
     event = event.dataValues;
     console.log('--------------------------------DB EVENT CREATED!!!!', event);
@@ -200,8 +200,8 @@ createEvent = (creatorId, trailId, eventTitle, eventDesc, eventTrail, eventDate,
 };
 
 
-// get all events around the location
-getAllEventsNearLocations = (trailIdList) => {
+
+module.exports.getAllEventsNearLocations = (trailIdList) => {
   var orQuery = trailIdList.map((id)=>{
     return {trail_id: id}
   });

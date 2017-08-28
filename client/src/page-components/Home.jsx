@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Map from '../components/Gmaps.jsx';
-import { handlePlacesChanged, trailClick, onDragEnd, onMarkerClose, handleSearchBoxMounted, onMarkerClick, handleMapMounted } from '../helpers/helpers.js';
+import { handlePlacesChanged, trailClick, onDragEnd, getEvents, onMarkerClose, handleSearchBoxMounted, onMarkerClick, handleMapMounted } from '../helpers/helpers.js';
 import gps from '../helpers/gps.js';
 import SearchBox from 'react-google-maps/lib/places/SearchBox';
 import Nav from '../components/Nav.jsx';
@@ -20,6 +20,8 @@ class Home extends React.Component {
         lng: -115.4089664
       },
       markers: [],
+      trails: [],
+      events: [],
       trailPopup: false
     }
 
@@ -31,6 +33,7 @@ class Home extends React.Component {
     this.onPlacesChanged = handlePlacesChanged.bind(this);
     this.trailClick = trailClick.bind(this);
     this.changeId = props.changeId;
+    this.getEvents = getEvents.bind(this);
 
   }
   componentDidMount() {
@@ -83,11 +86,16 @@ class Home extends React.Component {
           //The empty markers array in state is set to the populated nextMarkers array.
           markers: nextMarkers,
         });
+        var markers = this.state.markers;
       });
+    })
+    .then(res =>{
+      this.getEvents(this.state.markers);
     })
     .catch(err => {
       console.log('oops, error in the trails call: ', err);
     });
+
   }
 
   loginRedirect() {
@@ -134,9 +142,8 @@ class Home extends React.Component {
         <div className='col-narrow'>
           {this.state.markers.length > 0 ? <TrailList onClick={this.trailClick} markers={this.state.markers} /> : <CircularProgress size={200} thickness={10} style={{'width': '50%', 'position': 'relative', 'left': '25%'}} />}
         </div>
-
         <div className='calendar' style={{clear: 'both'}}>
-          <Calendar trails={this.state.markers}></Calendar>
+          <Calendar trails={this.state.markers} events={this.state.events}></Calendar>
         </div>
       </div>
     );
