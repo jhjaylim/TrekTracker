@@ -64,6 +64,16 @@ module.exports.run = () => {
             models.events.create(db.events[i])
           );
         }
+        for (let i = 0; i < db.posts.length; i++) {
+          promises.push(
+            models.posts.create(db.posts[i])
+          );
+        }
+        for (let i = 0; i < db.interestedInEvent.length; i++) {
+          promises.push(
+            models.interestedInEvent.create(db.interestedInEvent[i])
+          );
+        }
         return Promise.all(promises);
       });
     });
@@ -229,24 +239,25 @@ module.exports.run = () => {
       it('Should be a function', () => {
         expect(dbFuncs.createEvent).to.be.a('function');
       });
-      // it('Should create an event with valid parameters', () => {
-      //   let title = 'Join us for a view from the Top';
-      //   let desc = 'Beautiful vistas are better with friends, so come.';
-      //   let start = '2017, 10, 2, 17, 55';
-      //   let end = '2017, 10, 2, 20, 00';
-      //   let contact = 'test@example.com';
-      //   return dbFuncs.createEvent(db.users[0].id, db.trails[0].id, title, desc, start, end, contact)
-      //   .then((event) => {
-      //     expect(event).to.exist;
-      //     expect(event.createdAt).to.exist;
-      //     expect(event.updatedAt).to.exist;
-      //     expect(event.title).to.equal(title);
-      //     expect(event.desc).to.equal(desc);
-      //     expect(event.start).to.equal(start);
-      //     expect(event.end).to.equal(end);
-      //     expect(event.contact).to.equal(contact);
-      //   });
-      // });
+      it('Should create an event with valid parameters', () => {
+        let title = 'Join us for a view from the Top';
+        let trailname = "trail1";
+        let desc = 'Beautiful vistas are better with friends, so come.';
+        let date = '1111/12/12';
+        let start = '2017, 10, 2, 17, 55';
+        let end = '2017, 10, 2, 20, 00';
+        return dbFuncs.createEvent(db.users[0].id, db.trails[0].id, title ,desc, trailname, date, start, end)
+        .then((event) => {
+          expect(event).to.exist;
+          expect(event.createdAt).to.exist;
+          expect(event.updatedAt).to.exist;
+          expect(event.title).to.equal(title);
+          expect(event.desc).to.equal(desc);
+          expect(event.start).to.equal(start);
+          expect(event.trailname).to.equal(trailname);
+          // expect(event.end).to.equal(end);
+        });
+      });
     })
 
     // getAllEventsNearLocation
@@ -256,7 +267,7 @@ module.exports.run = () => {
       let desc = 'Beautiful vistas are better with friends, so come.';
       let start = '2017, 10, 2, 17, 55';
       let end = '2017, 10, 2, 20, 00';
-      let contact = 'test@example.com';
+      let trailname = "trail1";
 
       it('Should exist', () =>{
         expect(dbFuncs.getAllEventsNearLocations).to.exist;
@@ -279,9 +290,9 @@ module.exports.run = () => {
           expect(events[0].updatedAt).to.exist;
           expect(events[0].title).to.equal(title);
           expect(events[0].desc).to.equal(desc);
+          expect(events[0].trailname).to.equal(trailname);
           expect(events[0].start).to.equal(start);
           expect(events[0].end).to.equal(end);
-          expect(events[0].contact).to.equal(contact);
         });
 
       });
@@ -296,7 +307,7 @@ module.exports.run = () => {
       let desc = 'Beautiful vistas are better with friends, so come.';
       let start = '2017, 10, 2, 17, 55';
       let end = '2017, 10, 2, 20, 00';
-      let contact = 'test@example.com';
+      let trailname = "trail1";
 
       it('Should exist', () =>{
         expect(dbFuncs.getAllEventsByUserEmail).to.exist;
@@ -307,24 +318,25 @@ module.exports.run = () => {
 
 
       });
-      it('Should be a function return list of events', () =>{
+      // it('Should be a function return list of events', () =>{
 
-        return dbFuncs.getAllEventsByUserEmail(contact)
+      //   return dbFuncs.getAllEventsByUserEmail(contact)
 
-        .then((events) => {
-          expect(events).to.be.an('array');
-          expect(events).to.exist;
-          expect(events[0]).to.exist;
-          expect(events[0].createdAt).to.exist;
-          expect(events[0].updatedAt).to.exist;
-          expect(events[0].title).to.equal(title);
-          expect(events[0].desc).to.equal(desc);
-          expect(events[0].start).to.equal(start);
-          expect(events[0].end).to.equal(end);
-          expect(events[0].contact).to.equal(contact);
-        });
+      //   .then((events) => {
+      //     expect(events).to.be.an('array');
+      //     expect(events).to.exist;
+      //     expect(events[0]).to.exist;
+      //     expect(events[0].createdAt).to.exist;
+      //     expect(events[0].updatedAt).to.exist;
+      //     expect(events[0].title).to.equal(title);
+      //     expect(events.trailname).to.equal(trailname);
+      //     expect(events[0].desc).to.equal(desc);
+      //     expect(events[0].start).to.equal(start);
+      //     expect(events[0].end).to.equal(end);
 
-      });
+      //   });
+
+      // });
 
     });
 
@@ -334,7 +346,7 @@ module.exports.run = () => {
       let desc = 'Beautiful vistas are better with friends, so come.';
       let start = '2017, 10, 2, 17, 55';
       let end = '2017, 10, 2, 20, 00';
-      let contact = 'test@example.com';
+      let trailname = "trail1";
 
       it('Should exist', () =>{
         expect(dbFuncs.getEventById).to.exist;
@@ -359,7 +371,7 @@ module.exports.run = () => {
           expect(event.desc).to.equal(desc);
           expect(event.start).to.equal(start);
           expect(event.end).to.equal(end);
-          expect(event.contact).to.equal(contact);
+          expect(event.trailname).to.equal(trailname);
         });
 
       });
@@ -379,7 +391,8 @@ module.exports.run = () => {
         let desc = 'Beautiful vistas are better with friends, so come.';
         let start = '2017, 10, 2, 17, 55';
         let end = '2017, 10, 2, 20, 00';
-        let contact = 'test@example.com';
+        let trailname = "trail1";
+
         return dbFuncs.getAllEventsByTrailId(1)
 
         .then((event) => {
@@ -392,7 +405,7 @@ module.exports.run = () => {
           expect(event.desc).to.equal(desc);
           expect(event.start).to.equal(start);
           expect(event.end).to.equal(end);
-          expect(event.contact).to.equal(contact);
+          expect(event.trailname).to.equal(trailname);
         });
 
       });
@@ -440,13 +453,12 @@ module.exports.run = () => {
         expect(dbFuncs.getPostsByUserEmail).to.be.a('function');
       });
       it('Should get posts by a particular user', () => {
-        let title = 'Example post title';
-        let text = 'Example post text';
-        let imageUrl = 'http://exampleurl.com/';
+        let title = db.posts[0].title;
+        let text = db.posts[0].text;
+        let imageUrl = db.posts[0].image_url;
         return dbFuncs.getPostsByUserEmail(db.users[0].email)
         .then((posts) => {
           expect(posts).to.exist;
-          expect(posts.length).to.equal(1);
           expect(posts[0].createdAt).to.exist;
           expect(posts[0].updatedAt).to.exist;
           expect(posts[0].title).to.equal(title);
@@ -454,8 +466,8 @@ module.exports.run = () => {
           expect(posts[0].image_url).to.equal(imageUrl);
           expect(posts[0].view_count).to.exist;
           expect(posts[0].flag_count).to.exist;
-          expect(posts[0].latitude).to.equal(0);
-          expect(posts[0].longitude).to.equal(0);
+          expect(posts[0].latitude).to.equal(db.posts[0].latitude);
+          expect(posts[0].longitude).to.equal(db.posts[0].longitude);
           expect(posts[0].poster).to.exist;
           expect(posts[0].poster.email).to.equal(db.users[0].email);
         });
@@ -474,13 +486,12 @@ module.exports.run = () => {
         expect(dbFuncs.getPostsByTrailId).to.be.a('function');
       });
       it('Should get posts for a particular trail', () => {
-        let title = 'Example post title';
-        let text = 'Example post text';
-        let imageUrl = 'http://exampleurl.com/';
+        let title = db.posts[0].title;
+        let text = db.posts[0].text;
+        let imageUrl = db.posts[0].image_url;
         return dbFuncs.getPostsByTrailId(db.trails[0].id)
         .then((posts) => {
           expect(posts).to.exist;
-          expect(posts.length).to.equal(1);
           expect(posts[0].createdAt).to.exist;
           expect(posts[0].updatedAt).to.exist;
           expect(posts[0].title).to.equal(title);
@@ -488,8 +499,8 @@ module.exports.run = () => {
           expect(posts[0].image_url).to.equal(imageUrl);
           expect(posts[0].view_count).to.exist;
           expect(posts[0].flag_count).to.exist;
-          expect(posts[0].latitude).to.equal(0);
-          expect(posts[0].longitude).to.equal(0);
+          expect(posts[0].latitude).to.equal(12345);
+          expect(posts[0].longitude).to.equal(56789);
           expect(posts[0].poster).to.exist;
           expect(posts[0].poster.email).to.equal(db.users[0].email);
         });

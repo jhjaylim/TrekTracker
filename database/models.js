@@ -166,7 +166,7 @@ var Events = sequelize.define('events', {
   end: {
     type: Sequelize.STRING,
     notEmpty: true,
-    allowNull: false
+    allowNull: true
   }
 });
 Events.belongsTo(Users, {
