@@ -69,6 +69,7 @@ class Navbar extends React.Component {
         <AppBar
           title="TrekTracker"
           onLeftIconButtonTouchTap={this.handleToggle}
+          style={{backgroundColor: '#668242'}}
         />
         <Drawer docked={false} width={250} open={this.state.open} onRequestChange={(open) => this.setState({open})}>
           <MenuItem onClick={this.redirectTo.bind(this, '/')}>Home</MenuItem>
