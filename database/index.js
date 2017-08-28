@@ -177,9 +177,9 @@ createEvent = (creatorId, trailId, eventTitle, eventDesc, eventTrail, eventDate,
   if (!eventStart || eventStart.constructor !==  String) {
     throw new Error ('Expected the start time to be a string, but instead it was ' + eventStart);
   }
-  if (!eventEnd || eventEnd.constructor !== String) {
-    throw new Error ('Expected the end time to be a string, but instead it was ' + eventEnd);
-  }
+  // if (!eventEnd || eventEnd.constructor !== String) {
+  //   throw new Error ('Expected the end time to be a string, but instead it was ' + eventEnd);
+  // }
   return models.events.create({
     title: eventTitle,
     desc: eventDesc,

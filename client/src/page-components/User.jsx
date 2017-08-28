@@ -95,13 +95,13 @@ class User extends React.Component {
     return (
       <div>
         <UserEventList events={this.state.events} />
-        <ImageGallery className='imagegallery'
+        {this.state.posts.length!==0 ? <ImageGallery className='imagegallery'
           items={this.state.galleryposts}
           slideInterval={2000}
           onImageLoad={this.handleImageLoad}
           thumbnailPosition={'top'}
-        />
-
+        /> : <div></div> }
+        
       </div>
     );
   }
